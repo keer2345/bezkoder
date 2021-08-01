@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,20 +31,44 @@ import org.springframework.web.bind.annotation.RestController;
 public class TutorialController {
   @Autowired private TutorialRepo tutorialRepo;
 
+  private Sort.Direction getSortDirection(String direction) {
+    if (direction.toUpperCase().equals("ASC")) {
+      return Direction.ASC;
+    } else if (direction.toUpperCase().equals("DESC")) {
+      return Direction.DESC;
+    }
+    return Direction.ASC;
+  }
+
   @GetMapping()
   public ResponseEntity<Map<String, Object>> getAllTutorials(
       @RequestParam(required = false) String title,
       @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "3") int size) {
+      @RequestParam(defaultValue = "3") int size,
+      @RequestParam(defaultValue = "id,desc") String[] sort) {
     try {
+      List<Order> orders = new ArrayList<>();
+
+      if (sort[0].contains(",")) {
+        // will sort more than 2 fields
+        // sortOrder="field, direction"
+        for (String sortOrder : sort) {
+          String[] _sort = sortOrder.split(",");
+          orders.add(new Order(getSortDirection(_sort[1]), _sort[0]));
+        }
+      } else {
+        // sort=[field, direction]
+        orders.add(new Order(getSortDirection(sort[1]), sort[0]));
+      }
+
       List<Tutorial> tutorials = new ArrayList<Tutorial>();
-      Pageable paging = PageRequest.of(page, size);
+      Pageable pagingSort = PageRequest.of(page, size,Sort.by(orders));
       Page<Tutorial> pageTutorials;
 
       if (title == null) {
-        pageTutorials = tutorialRepo.findAll(paging);
+        pageTutorials = tutorialRepo.findAll(pagingSort);
       } else {
-        pageTutorials = tutorialRepo.findByTitleContaining(title, paging);
+        pageTutorials = tutorialRepo.findByTitleContaining(title, pagingSort);
       }
 
       tutorials = pageTutorials.getContent();
