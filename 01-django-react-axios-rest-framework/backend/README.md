@@ -1,3 +1,21 @@
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Django Rest Apis Back-end](#django-rest-apis-back-end)
+    - [Environment](#environment)
+    - [Export and Import Package](#export-and-import-package)
+    - [Crate project](#crate-project)
+    - [Setting](#setting)
+    - [Setup new Django app for Rest CRUD Api](#setup-new-django-app-for-rest-crud-api)
+    - [Configure CORS](#configure-cors)
+    - [Define the Django Model](#define-the-django-model)
+    - [Migrate Data Model to the database](#migrate-data-model-to-the-database)
+    - [Create Serializer class for Data Model](#create-serializer-class-for-data-model)
+    - [Define Routes to Views functions](#define-routes-to-views-functions)
+    - [Write API Views](#write-api-views)
+
+<!-- markdown-toc end -->
+
 # Django Rest Apis Back-end
 
 ## Environment
@@ -14,6 +32,14 @@ pip install djangorestramework
 pip install django-cors-headers
 ```
 
+## Export and Import Package
+
+``` shell
+pip freeze > requirements.txt
+pip install -r requirements.txt
+```
+
+## Crate project
 ```
 django-admin startproject backend .
 ```

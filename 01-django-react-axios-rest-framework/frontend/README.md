@@ -1,3 +1,16 @@
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [React Front-end](#react-front-end)
+    - [Install Packages](#install-packages)
+    - [Import Bootstrap and Router to React CRUD App](#import-bootstrap-and-router-to-react-crud-app)
+    - [Add Navbar to React CRUD App](#add-navbar-to-react-crud-app)
+    - [Initialize Axios for React CRUD HTTP Client](#initialize-axios-for-react-crud-http-client)
+    - [Create React Components](#create-react-components)
+    - [Port](#port)
+
+<!-- markdown-toc end -->
+
 # React Front-end
 
 Materials:
