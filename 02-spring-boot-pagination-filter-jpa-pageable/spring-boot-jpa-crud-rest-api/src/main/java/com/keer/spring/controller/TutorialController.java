@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TutorialController {
   @Autowired private TutorialRepo tutorialRepo;
 
-  @GetMapping("/")
+  @GetMapping()
   public ResponseEntity<List<Tutorial>> getAllTutorials(
       @RequestParam(required = false) String title) {
     try {
@@ -52,7 +52,7 @@ public class TutorialController {
     }
   }
 
-  @PostMapping("/")
+  @PostMapping()
   public ResponseEntity<Tutorial> createTutorial(@RequestBody Tutorial data) {
     try {
       Tutorial tutorial = new Tutorial(data.getTitle(), data.getDescription(), false);
@@ -89,7 +89,7 @@ public class TutorialController {
     }
   }
 
-  @DeleteMapping("/")
+  @DeleteMapping()
   public ResponseEntity<Tutorial> deleteAllTutorials() {
     try {
       tutorialRepo.deleteAll();
