@@ -10,13 +10,4 @@ import org.springframework.stereotype.Service;
 public class TutorialService {
   @Autowired private TutorialRepo tutorialRepo;
 
-  List<Tutorial> findByPublished(boolean published) {
-    return tutorialRepo.findByPublished(published);
-  }
-  ;
-
-  List<Tutorial> findByTitleContaining(String title) {
-    return tutorialRepo.findByTitleContaining(title);
-  }
-  ;
 }
