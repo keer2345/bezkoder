@@ -18,6 +18,7 @@ Materials:
 - [Axios tutorial](https://www.bezkoder.com/axios-request/)
 - [React.js CRUD example to consume Web API](https://www.bezkoder.com/react-crud-web-api/)
 - [React Typescript CRUD example with Web API](https://bezkoder.com/react-typescript-axios/)
+- [React Firebase using Hooks: CRUD with Realtime Database example](https://www.bezkoder.com/react-firebase-hooks-crud/)
 
 ![](https://www.bezkoder.com/wp-content/uploads/2020/03/django-react-axios-rest-framework-crud-example-react-overview.png)
 ![](https://www.bezkoder.com/wp-content/uploads/2020/11/react-redux-crud-example-rest-api-axios-app-components.png)
