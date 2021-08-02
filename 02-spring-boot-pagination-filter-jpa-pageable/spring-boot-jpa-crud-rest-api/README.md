@@ -15,6 +15,8 @@
     - [Practice](#practice)
         - [Repository that supports Pagination and Sorting](#repository-that-supports-pagination-and-sorting)
         - [Controller with Pagination & Sorting](#controller-with-pagination--sorting)
+- [Spring Boot unit test jpa repo with DataJpaTest](#spring-boot-unit-test-jpa-repo-with-datajpatest)
+    - [Run Unit Test](#run-unit-test)
 
 <!-- markdown-toc end -->
 
@@ -396,4 +398,29 @@ Access to:
 
 ```
 http://127.0.0.1:8080/api/tutorials?page=0&size=12&sort=description,desc&sort=title,asc&sort=id,asc
+```
+
+# Spring Boot unit test jpa repo with DataJpaTest
+`JpaUnitTest.java`
+## Run Unit Test
+
+– `mvn test`
+
+```shell
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.673 s - in com.keer.spring.JpaUnitTest
+[INFO] Running com.keer.spring.ApplicationTest
+
+...
+
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  30.016 s
+[INFO] Finished at: 2021-08-02T12:36:44+08:00
+[INFO] ------------------------------------------------------------------------
 ```
