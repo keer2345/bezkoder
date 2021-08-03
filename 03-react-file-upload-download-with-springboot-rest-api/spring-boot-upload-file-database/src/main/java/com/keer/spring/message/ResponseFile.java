@@ -1,11 +1,13 @@
-package com.keer.spring.model;
+package com.keer.spring.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FileInfo {
+public class ResponseFile {
   private String name;
   private String url;
+  private String type;
+  private long size;
 }
