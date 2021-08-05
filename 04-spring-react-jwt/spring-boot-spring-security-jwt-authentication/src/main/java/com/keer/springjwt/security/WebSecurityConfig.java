@@ -20,16 +20,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-//    securedEnabled = true,
-//    jsr250Enabled = true,
-    prePostEnabled = true
-)
+    //    securedEnabled = true,
+    //    jsr250Enabled = true,
+    prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Autowired
-  private UserDetailsServiceImpl userDetailsService;
-  @Autowired
-  private AuthEntryPointJwt unauthorizedHandler;
+  @Autowired private UserDetailsServiceImpl userDetailsService;
+  @Autowired private AuthEntryPointJwt unauthorizedHandler;
 
   @Bean
   public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -37,10 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Override
-  protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
-      throws Exception {
-    authenticationManagerBuilder.userDetailsService(userDetailsService)
-        .passwordEncoder(passwordEncoder());
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
   }
 
   @Bean
@@ -56,14 +51,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-        .antMatchers("/api/test/**").permitAll()
-        .anyRequest().authenticated();
+    http.cors()
+        .and()
+        .csrf()
+        .disable()
+        .exceptionHandling()
+        .authenticationEntryPoint(unauthorizedHandler)
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeRequests()
+        .antMatchers("/api/auth/**")
+        .permitAll()
+        .antMatchers("/api/test/**")
+        .permitAll()
+        .anyRequest()
+        .authenticated();
 
-    http.addFilterBefore(authenticationJwtTokenFilter(),
-        UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(
+        authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 }

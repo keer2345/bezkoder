@@ -1,6 +1,32 @@
+- [Spring Boot JWT Authentication example with Spring Security & Spring Data JPA](#spring-boot-jwt-authentication-example-with-spring-security--spring-data-jpa)
+- [Materials](#materials)
+  - [Overview](#overview)
+    - [User Registration, User Login and Authorization process.](#user-registration-user-login-and-authorization-process)
+    - [Spring Boot Server Architecture with Spring Security](#spring-boot-server-architecture-with-spring-security)
+    - [Refresh Token](#refresh-token)
+  - [Technology](#technology)
+  - [Setup new Spring Boot project](#setup-new-spring-boot-project)
+  - [Configure Spring Datasource, JPA, App properties](#configure-spring-datasource-jpa-app-properties)
+  - [Create the models@](#create-the-models)
+  - [Implement Repositories](#implement-repositories)
+  - [Configure Spring Security](#configure-spring-security)
+    - [Implement UserDetails & UserDetailsService](#implement-userdetails--userdetailsservice)
+    - [Filter the Requests](#filter-the-requests)
+    - [Create JWT Utility class](#create-jwt-utility-class)
+    - [Handle Authentication Exception](#handle-authentication-exception)
+  - [Define payloads for Spring RestController](#define-payloads-for-spring-restcontroller)
+    - [Create Spring RestAPIs Controllers](#create-spring-restapis-controllers)
+    - [Controller for testing Authorization](#controller-for-testing-authorization)
+  - [Run & Test](#run--test)
+    - [Create Database and User on MySQL](#create-database-and-user-on-mysql)
+
 # [Spring Boot JWT Authentication example with Spring Security & Spring Data JPA](https://www.bezkoder.com/spring-boot-jwt-authentication)
 
 > [Source Code](https://github.com/bezkoder/spring-boot-spring-security-jwt-authentication)
+
+# Materials
+
+- [Spring Security: In-Memory Invalidation of JWT Tokens During User Logout](https://stackabuse.com/spring-security-in-memory-invalidation-of-jwt-token-during-user-logout)
 
 ## Overview
 
@@ -163,14 +189,86 @@ Let me summarize the payloads for our RestAPIs:
 ### Create Spring RestAPIs Controllers
 
 - _controllers/AuthController.java_
+
 ### Controller for testing Authorization
+
 - _controllers/TestController.java_
 
 ## Run & Test
+
 ### Create Database and User on MySQL
+
 ```mysql-sql
 create database springboot_jwt default charset utf8 collate utf8_general_ci;
 create user 'springboot'@'%' identified by '123456';
 grant all privileges on springboot_jwt.* to "springboot";
 flush privileges;
 ```
+
+Tables that we define in models package will be automatically generated in Database.
+
+We also need to add some rows into roles table before assigning any role to User. Run following SQL
+insert statements:
+
+```mysql-sql
+INSERT INTO roles(name) VALUES('ROLE_USER');
+INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
+INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+```
+
+Register some users with /signup API:
+
+- **admin** with ROLE_ADMIN
+- **mod** with ROLE_MODERATOR and ROLE_USER
+- **zkoder** with ROLE_USER
+
+![](imgs/img_3.png)
+
+Our tables after signup could look like this.
+
+```
+mysql> select * from users;
++----+--------------------+--------------------------------------------------------------+----------+
+| id | email              | password                                                     | username |
++----+--------------------+--------------------------------------------------------------+----------+
+|  1 | admin@bezkoder.com | $2a$10$mR4MU5esBbUd6JWuwWKTA.tRy.jo4d4XRkgnamcOJfw5pJ8Ao/RDS | admin    |
+|  2 | mod@bezkoder.com   | $2a$10$VcdzH8Q.o4KEo6df.XesdOmXdXQwT5ugNQvu1Pl0390rmfOeA1bhS | mod      |
+|  3 | user@bezkoder.com  | $2a$10$c/cAdrKfiLLCDcnXvdI6MumFMthIxVCDcWjp2XcRqkRfdzba5P5.. | user     |
++----+--------------------+--------------------------------------------------------------+----------+
+3 rows in set (0.00 sec)
+
+
+mysql> select * from roles;
++----+----------------+
+| id | name           |
++----+----------------+
+|  1 | ROLE_USER      |
+|  2 | ROLE_MODERATOR |
+|  3 | ROLE_ADMIN     |
++----+----------------+
+3 rows in set (0.00 sec)
+
+
+mysql> select * from user_roles;
++---------+---------+
+| user_id | role_id |
++---------+---------+
+|       2 |       1 |
+|       3 |       1 |
+|       2 |       2 |
+|       1 |       3 |
++---------+---------+
+4 rows in set (0.00 sec)
+```
+
+![](imgs/img_4.png)
+
+![](imgs/img_5.png)
+
+![](imgs/img_6.png)
+
+![](imgs/img_7.png)
+
+![](imgs/img_8.png)
+
+![](imgs/img_9.png)
