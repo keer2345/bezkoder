@@ -19,13 +19,23 @@ class AuthService {
         return e.response
       })
   }
+
   logout() {
     localStorage.removeItem('user')
   }
   register(username, email, password) {
-    return axios.post(API_URL + 'singup', { username, email, password })
+    return axios
+      .post(API_URL + 'signup', { username, email, password })
+      .then((response) => {
+        return response
+      })
+      .catch((e) => {
+        // console.log(e.response.data)
+        return e.response
+      })
   }
-  getcurrentUser() {
+
+  getCurrentUser() {
     return JSON.parse(localStorage.getItem('user'))
   }
 }

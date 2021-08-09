@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import AuthService from '../services/auth.service'
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState()
 
   const history = useHistory()
@@ -21,40 +21,30 @@ const Login = () => {
     setUsername(e.target.value)
   }
 
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value)
+  }
+
   const onChangePassword = (e) => {
     setPassword(e.target.value)
   }
 
-  const handleLogin = (e) => {
-    setLoading(true)
-
-    AuthService.login(username, password).then((response) => {
-      // console.log(data)
-      // login success
-      if (response.status === 200) {
-        // console.log('login success')
-        history.push('/')
-      } else if (response.status === 401) {
-        console.log(response.data.error)
-        // setMessage(response.data.error)
-        setMessage(JSON.stringify(response.data))
+  const handleRegister = (e) => {
+    AuthService.register(username, email, password).then((resp) => {
+      if (resp === 200) {
+        console.log(resp)
+        setMessage(resp.data.message)
       } else {
-        console.log('login error')
+        // console.log(resp.data.message)
+        setMessage(resp.data.message)
       }
-      setLoading(false)
     })
-    setLoading(false)
   }
 
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        {/* <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        /> */}
-        <form onSubmit={handleSubmit(handleLogin)}>
+        <form onSubmit={handleSubmit(handleRegister)}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
@@ -64,6 +54,23 @@ const Login = () => {
               name="username"
               value={username}
               onChange={onChangeUsername}
+            />
+            {errors?.username?.type === 'required' && (
+              <div className="alert alert-danger" role="alert">
+                This field is required!
+              </div>
+            )}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              {...register('email', { required: true })}
+              type="text"
+              className="form-control"
+              name="email"
+              value={email}
+              onChange={onChangeEmail}
             />
             {errors?.username?.type === 'required' && (
               <div className="alert alert-danger" role="alert">
@@ -90,13 +97,9 @@ const Login = () => {
           </div>
 
           <div className="form-group">
-            <button className="btn btn-primary btn-block" disabled={loading}>
-              {loading && (
-                <span className="spinner-border spinner-boder-sm"></span>
-              )}
-              Login
-            </button>
+            <button className="btn btn-primary btn-block">Sign Up</button>
           </div>
+
           {message && (
             <div className="form-group">
               <div className="alert alert-danger">{message}</div>
@@ -108,4 +111,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register

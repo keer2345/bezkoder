@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Switch, Route, Link } from 'react-router-dom'
 import AuthService from './services/auth.service'
 import Login from './components/login.component'
+import Register from './components/register.component'
 
 function App() {
   return (
@@ -51,6 +52,8 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
+          {/* <Route exact path={['/', '/home']} component={Home} /> */}
+          <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
         </Switch>
       </div>
