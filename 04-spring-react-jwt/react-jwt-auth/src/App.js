@@ -6,6 +6,7 @@ import AuthService from './services/auth.service'
 import Login from './components/login.component'
 import Register from './components/register.component'
 import Profile from './components/profile.component'
+import Home from './components/home.component'
 
 function App() {
   const [currentUser, setCurrentUser] = useState()
@@ -75,7 +76,7 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
-          {/* <Route exact path={['/', '/home']} component={Home} /> */}
+          <Route exact path={['/', '/home']} component={Home} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/profile" component={Profile} />

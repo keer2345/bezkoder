@@ -47,13 +47,17 @@ function App() {
 export default App
 ```
 
-# Create Services
+## Create Services
 
 - _src/services/auth.service.js_
 - _src/services/auth.service.js_
 - _src/services/user.service.js_
 
-# Create React Components for Authentication
+## Create React Components for Authentication
+
 _src/components/login.component.js_
 _src/components/register.component.js_
 _src/components/profile.component.js_
+
+## Create React Components for accessing Resources
+Token: eyJhbGciOiJIUzUxMiJ9 ... hs3o7iQcwPJVh3MBChVA
