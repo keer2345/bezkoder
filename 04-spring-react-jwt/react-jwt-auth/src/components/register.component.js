@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
 import AuthService from '../services/auth.service'
 
 const Register = () => {
@@ -8,8 +7,6 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState()
-
-  const history = useHistory()
 
   const {
     register,

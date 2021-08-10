@@ -56,3 +56,4 @@ export default App
 # Create React Components for Authentication
 _src/components/login.component.js_
 _src/components/register.component.js_
+_src/components/profile.component.js_
