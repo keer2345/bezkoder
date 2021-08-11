@@ -7,13 +7,41 @@ import Login from './components/login.component'
 import Register from './components/register.component'
 import Profile from './components/profile.component'
 import Home from './components/home.component'
+import BoardUser from './components/boardUser'
+import BoardModerator from './components/boardModerator'
+import BoardAdmin from './components/boardAdmin'
+
+import EventBus from './common/EventBus'
 
 function App() {
   const [currentUser, setCurrentUser] = useState()
+  const [showModeratorBoard, setShowModeratorBoard] = useState(false)
+  const [showAdminBoard, setShowAdminBoard] = useState(false)
 
   useEffect(() => {
-    setCurrentUser(AuthService.getCurrentUser())
+    const user = AuthService.getCurrentUser()
+
+    if (user) {
+      setCurrentUser(user)
+      setShowModeratorBoard(user.roles.includes('ROLE_MODERATOR'))
+      setShowAdminBoard(user.roles.includes('ROLE_ADMIN'))
+    }
+
+    EventBus.on('logout', () => {
+      logout()
+    })
+
+    return () => {
+      EventBus.remove('logout')
+    }
   }, [])
+
+  const logout = () => {
+    AuthService.logout()
+    setShowModeratorBoard(false)
+    setShowAdminBoard(false)
+    setCurrentUser(undefined)
+  }
 
   return (
     <div className="App">
@@ -27,21 +55,27 @@ function App() {
               Home
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to={'/mod'} className="nav-link">
-              Moderator Board
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to={'/admin'} className="nav-link">
-              Admin Board
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to={'/user'} className="nav-link">
-              User
-            </Link>
-          </li>
+          {showModeratorBoard && (
+            <li className="nav-item">
+              <Link to={'/mod'} className="nav-link">
+                Moderator Board
+              </Link>
+            </li>
+          )}
+          {showAdminBoard && (
+            <li className="nav-item">
+              <Link to={'/admin'} className="nav-link">
+                Admin Board
+              </Link>
+            </li>
+          )}
+          {currentUser && (
+            <li className="nav-item">
+              <Link to={'/user'} className="nav-link">
+                User
+              </Link>
+            </li>
+          )}
         </div>
 
         {currentUser ? (
@@ -52,8 +86,8 @@ function App() {
               </Link>
             </li>
             <li className="nav-item">
-              <a href="/login" className="nav-link" >
-                LogOut
+              <a href="/login" className="nav-link" onClick={logout}>
+                Logout
               </a>
             </li>
           </div>
@@ -80,6 +114,9 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/profile" component={Profile} />
+          <Route path="/user" component={BoardUser} />
+          <Route path="/mod" component={BoardModerator} />
+          <Route path="/admin" component={BoardAdmin} />
         </Switch>
       </div>
     </div>

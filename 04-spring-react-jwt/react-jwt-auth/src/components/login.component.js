@@ -33,7 +33,8 @@ const Login = () => {
       // login success
       if (response.status === 200) {
         // console.log('login success')
-        history.push('/')
+        history.push('/profile')
+        window.location.reload()
       } else if (response.status === 401) {
         console.log(response.data.error)
         // setMessage(response.data.error)

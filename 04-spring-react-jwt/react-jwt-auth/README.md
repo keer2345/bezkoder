@@ -60,4 +60,8 @@ _src/components/register.component.js_
 _src/components/profile.component.js_
 
 ## Create React Components for accessing Resources
-Token: eyJhbGciOiJIUzUxMiJ9 ... hs3o7iQcwPJVh3MBChVA
+
+- home.component.js
+- boardUser.js
+- boardModerator.js
+- boardAdmin.js
